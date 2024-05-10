@@ -12,11 +12,13 @@ DROP TABLE IF EXISTS user;
 
 */
 CREATE TABLE IF NOT EXISTS user (
-	`name` VARCHAR(100) NOT NULL,
+
+ `id` INT NOT NULL,
+  `name` VARCHAR(60) NOT NULL,
   `email` VARCHAR(70) NOT NULL,
-  `mobileNumber` INT(10) NOT NULL,
-  `dateOfBirth` VARCHAR(50) NULL,
-  PRIMARY KEY (`email`),
+  `mobileNumber` VARCHAR(60) NOT NULL,
+  `dateOfBirth` DATE NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `mobileNumber_UNIQUE` (`mobileNumber` ASC) VISIBLE);
-);

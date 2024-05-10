@@ -2,13 +2,13 @@
 //sconst funs = require('../controllers/controllers');
 var dbConn = require("./../../config/connection");
 
-const User = (user) => {
-  this.name= user.name;
-  this.email=user.email;
-  this.mobileNumber=user.mobileNumber;
-  this.dateOfBirth=user.dateOfBirth;
-  
-};
+function User(user) {
+  this.id=user.id,
+  this.name = user.name;
+  this.email = user.email;
+  this.mobileNumber = user.mobileNumber;
+  this.dateOfBirth = user.dateOfBirth;
+}
 
 User.create = function (newUser, result) {
   dbConn.query("INSERT INTO user set ?", newUser, function (err, res) {
@@ -17,7 +17,7 @@ User.create = function (newUser, result) {
       result(err, null);
     } else {
       console.log("res.insertId");
-      result(null, res.insertId,...newUser);
+      result(null, res.insertId);
     }
   });
 };
@@ -30,33 +30,69 @@ User.findAll = (result) => {
     } else {
       console.log("result: ", res);
       result(null, res);
-     // res.staus(201).send({message:"How are you"});
+    // res.status(201).send({message:"How are you"});
     }
   });
 };
 
-User.update = function (id, user, result) {
+// User.update = function (user, result) {
+  
+//   dbConn.query(
+//     "UPDATE user SET name=?,email=?,mobileNumber=?,dateOfBirth=? WHERE id=?",
+//     [
+//       user.name,
+//       user.email,
+//       user.mobileNumber,
+//       user.dateOfBirth,
+//       user.id,
+//     ],
+//     function (err, res) {
+//       if (err) {
+//         console.log("error: ", err);
+//        result(null, err);
+//       res.status(500).send({ error: true, message: "Internal Server Error" });  
+//     } else {
+//     console.log("Updated rows:", res.affectedRows); // Log the number of updated rows
+//        // return result(null, res); 
+//        result(null, res);
+//     //  console.log("successfully updated");
+//        //res.status(201).send({ error: false, message: "Data updated successfully" });
+//       }
+//     }
+//   );
+// };
+User.update = function (id,user, result) {
   dbConn.query(
-    "UPDATE user SET name=?,email=?,mobileNumber=?,dateOfBirth=?",
+    "UPDATE user SET name=?, email=?, mobileNumber=?, dateOfBirth=? WHERE id=?",
     [
       user.name,
       user.email,
       user.mobileNumber,
-      user.dob,
+      user.dateOfBirth,
+      id
     ],
     function (err, res) {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+        result(err, null);
       } else {
+        console.log("Updated rows:", res.affectedRows);
         result(null, res);
+        dbConn.query("COMMIT;", function(err, res) {
+          if (err) {
+              console.log("Error committing transaction:", err);
+          } else {
+              console.log("Transaction committed successfully.");
+          }
+      });
       }
     }
   );
 };
 
+
 User.delete = function (id, result) {
-  dbConn.query("DELETE FROM user WHERE email=?", [id], function (err, res) {
+  dbConn.query("DELETE FROM user WHERE id=?", [id], function (err, res) {
     if (err) {
       console.log("error: ", err);
       result(null, err);
