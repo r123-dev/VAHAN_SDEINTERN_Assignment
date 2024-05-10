@@ -1,17 +1,17 @@
-"use strict";
 const mysql = require("mysql");
+require('dotenv').config();
 const dbConn = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "12abcd@#",
-  database: "node_mysql_crud_db",
+  host: process.env.HOST,
+  user: process.env.User,  
+  database: process.env.database,
+  password: process.env.password
 });
 
 dbConn.connect((err) => {
   if (err) {
-    console.log("error connecting");
+    console.error("Connection Failed:", err);
   } else {
-    console.log("Connected to database");
+    console.log("Connected");
   }
 });
 

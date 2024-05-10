@@ -1,5 +1,5 @@
 "use strict";
-const User = require("../model/model");
+var User = require("../model/model").User;
 exports.findAll = function (req, res) {
   User.findAll = (err, user) => {
     console.log("controller");
@@ -7,6 +7,7 @@ exports.findAll = function (req, res) {
       res.send(err);
       console.log("res", user);
     }
+    else
     res.send(user);
   };
 };
@@ -25,12 +26,14 @@ exports.create = function (req, res) {
       .send({ error: true, message: "Please provide all required field" });
   } else {
     User.create(new_user, function (err, user) {
-      if (err) res.send(err);
+      if (err)
+         res.send(err);
+      else{
       res.json({
         error: false,
         message: "data updated successfully",
         data: user,
-      });
+      });}
     });
   }
 };
@@ -50,8 +53,10 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  User.delete(req.params.id, function (err, user) {
-    if (err) res.send(err);
+  User.delete(req.params.email, function (err, user) {
+    if (err)
+       res.send(err);
+      
     res.json({ error: false, message: "data deleted successfully" });
   });
 };
