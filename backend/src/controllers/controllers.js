@@ -35,7 +35,7 @@ exports.create = function (req, res) {
   //   this.dob=req.body.dob;
   // };
   const new_user = {
-    id:req.body.id,
+    id1:req.body.id1,
     name: req.body.name,
     email: req.body.email,
     mobileNumber: req.body.mobileNumber,
@@ -102,7 +102,7 @@ exports.create = function (req, res) {
 // };
 exports.update=(req, res) => {
     
-  const id = parseInt(req.body.id);
+  const id1 = parseInt(req.body.id1);
   const customer = req.body;
   const customerObj = [
       customer.name,
@@ -111,7 +111,7 @@ exports.update=(req, res) => {
       customer.dateOfBirth
   ];
 
-  if (isNaN(id)) {
+  if (isNaN(id1)) {
       return res.json('You must enter a valid id as a parameter');
   }
 
@@ -122,7 +122,7 @@ exports.update=(req, res) => {
       });
   }
 
-  let sqlQuery = `UPDATE user SET name = ?, email = ?, mobileNumber = ?, dateOfBirth = ? WHERE id = ${id}`
+  let sqlQuery = `UPDATE user SET name = ?, email = ?, mobileNumber = ?, dateOfBirth = ? WHERE id1 = ${id1}`
 
   dbConn.query(sqlQuery, customerObj,  (error, result) => {
       if (error) throw error;

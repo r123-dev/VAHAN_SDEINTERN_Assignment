@@ -3,7 +3,7 @@
 var dbConn = require("./../../config/connection");
 
 function User(user) {
-  this.id=user.id,
+  this.id1=user.id1,
   this.name = user.name;
   this.email = user.email;
   this.mobileNumber = user.mobileNumber;
@@ -61,15 +61,15 @@ User.findAll = (result) => {
 //     }
 //   );
 // };
-User.update = function (id,user, result) {
+User.update = function (id1,user, result) {
   dbConn.query(
-    "UPDATE user SET name=?, email=?, mobileNumber=?, dateOfBirth=? WHERE id=?",
+    "UPDATE user SET name=?, email=?, mobileNumber=?, dateOfBirth=? WHERE id1=?",
     [
       user.name,
       user.email,
       user.mobileNumber,
       user.dateOfBirth,
-      id
+      id1
     ],
     function (err, res) {
       if (err) {
@@ -91,8 +91,8 @@ User.update = function (id,user, result) {
 };
 
 
-User.delete = function (id, result) {
-  dbConn.query("DELETE FROM user WHERE id=?", [id], function (err, res) {
+User.delete = function (id1, result) {
+  dbConn.query("DELETE FROM user WHERE id1=?", [id1], function (err, res) {
     if (err) {
       console.log("error: ", err);
       result(null, err);
