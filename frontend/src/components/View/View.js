@@ -22,11 +22,11 @@ function View() {
                     throw new Error('Failed to fetch users');
                 }
                 const data = await response.json();
-                const formattedData = data.map(user => ({
-                    ...user,
-                    dateOfBirth: new Date(user.dateOfBirth).toISOString().split('T')[0]
-                }));
-                setUsers(formattedData);
+                // const formattedData = data.map(user => ({
+                //     ...user,
+                //     dateOfBirth: new Date(user.dateOfBirth).toISOString().split('T')[0]
+                // }));
+                setUsers(data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -136,7 +136,7 @@ function View() {
                         <div>{user.id1} {user.name}</div>
                         <div>{user.email}</div>
                         <div>{user.mobileNumber}</div>
-                        <div>{new Date(user.dateOfBirth).toISOString().split('T')[0]}</div>
+                        <div>{user.dateOfBirth}</div>
                         <div className="user-actions">
                             <button onClick={() => handleDelete(user.id1)}>Delete</button>
                             <button onClick={() => handleUpdate(user)}>Update</button>

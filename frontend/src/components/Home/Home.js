@@ -83,7 +83,7 @@ function Home() {
                     <input type="tel" id="mobileNumber" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                <label htmlFor="dob">Date of Birth (YYYY-MM-DD):</label>
+                <label htmlFor="dob">Date of Birth (DD-MMM-YYYY):</label>
                     <input type="text" id="dob" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />     </div>
                 <button type="submit" className="btn">Submit</button>
             </form>
