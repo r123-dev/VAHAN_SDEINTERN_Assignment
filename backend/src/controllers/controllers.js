@@ -34,6 +34,13 @@ exports.create = function (req, res) {
   //   this.mobileNumber=req.body.mobileNumber;
   //   this.dob=req.body.dob;
   // };
+  dbConn.query('SELECT * FROM user WHERE id1 = ?', [req.body.id1], function (err, rows) {
+    
+    if (rows.length > 0) {
+        // User with the same ID already exists
+        return res.status(400).json({ error: true, message: 'User with the same ID already exists' });
+    }
+   else{
   const new_user = {
     id1:req.body.id1,
     name: req.body.name,
@@ -56,8 +63,8 @@ exports.create = function (req, res) {
         data: user,
       });}
     });
-  }
-};
+    }
+}});}
 
 
 // exports.update = function (req, res) {
@@ -102,7 +109,7 @@ exports.create = function (req, res) {
 // };
 exports.update=(req, res) => {
     
-  const id1 = parseInt(req.body.id1);
+ // const id1 = req.body.id1;
   const customer = req.body;
   const customerObj = [
       customer.name,
@@ -111,7 +118,7 @@ exports.update=(req, res) => {
       customer.dateOfBirth
   ];
 
-  if (isNaN(id1)) {
+  if (isNaN(req.params.id1)) {
       return res.json('You must enter a valid id as a parameter');
   }
 
@@ -122,20 +129,20 @@ exports.update=(req, res) => {
       });
   }
 
-  let sqlQuery = `UPDATE user SET name = ?, email = ?, mobileNumber = ?, dateOfBirth = ? WHERE id1 = ${id1}`
+  let sqlQuery = `UPDATE user SET name = ?, email = ?, mobileNumber = ?, dateOfBirth = ? WHERE id1 = ${req.params.id1}`
 
   dbConn.query(sqlQuery, customerObj,  (error, result) => {
       if (error) throw error;
       if (result.affectedRow === 0) {
           res.send('No customer was updated');
       }
-      res.json(`Customer with id ${id} updated successfully`);
+      res.json(`Customer with id ${req.params.id1} updated successfully`);
   });
 };
 
 
 exports.delete = function (req, res) {
-  User.delete(req.params.email, function (err, user) {
+  User.delete(req.params.id1, function (err, user) {
     if (err)
        res.send(err);
       

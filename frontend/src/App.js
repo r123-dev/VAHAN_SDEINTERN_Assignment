@@ -6,7 +6,7 @@ import Home from './components/Home/Home'
 import View from './components/View/View'
 function App() {
   return (
-    <div>
+    
     
     <BrowserRouter>
     <Navbar/>
@@ -16,7 +16,7 @@ function App() {
         
       </Routes>
     </BrowserRouter>
-    </div>
+    
   );
 }
 

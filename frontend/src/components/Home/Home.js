@@ -2,6 +2,9 @@ import React from 'react'
 import { useState } from 'react';
 import './Home.css'
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import NavBar from '../Navbar/Navbar';
+import 'react-toastify/dist/ReactToastify.css';
 const backgroundImageUrl = 'https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-padrinan-255379.jpg&fm=jpg';
 function Home() {
   const navigate=useNavigate();
@@ -33,28 +36,38 @@ function Home() {
             });
 
             if (!response.ok) {
-              
+                toast.error('Failed to create user');
                 throw new Error('Failed to submit form');
-                 
-              }
+            }
 
-            // Optionally, you can handle the response from the backend here
             const data = await response.json();
-            console.log('Form submitted successfully:', data);
-            navigate('/');
+            if (data.error) {
+                toast.error(data.message);
+            } else {
+                toast.success('Added details successfully');
+                setFormData({
+                    id1: '',
+                    name: '',
+                    email: '',
+                    mobileNumber: '',
+                    dateOfBirth: ''
+                });
+            }navigate('/');
+            
         } catch (error) {
-          navigate('/');
-            console.error('Error submitting form:', error);
+            //toast.error('Failed to create user');
+            navigate('/');
         }
     };
          
     return (
        
         <div className="container" style={{backgroundImage: `url(${backgroundImageUrl})`}}>
-            <h2>User Registration Form</h2>
+            
+            <h2>Person Details</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="serialNumber">Serial Number:</label>
+                    <label htmlFor="serialNumber">Id_Number:</label>
                     <input type="text" id="id1" name="id1" value={formData.id1} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
@@ -74,6 +87,7 @@ function Home() {
                     <input type="text" id="dob" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />     </div>
                 <button type="submit" className="btn">Submit</button>
             </form>
+            <ToastContainer />
         </div>
     );
 }
